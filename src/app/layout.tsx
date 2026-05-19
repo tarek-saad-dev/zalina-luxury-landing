@@ -17,9 +17,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Zalina Luxury Bubble Tents | Manufactured in Egypt",
+  title: "Zalina Luxury Bubble Tents | Manufactured in Egypt for Resorts",
   description:
-    "Luxury bubble tents manufactured in Egypt for resorts, glamping camps, and hospitality developers.",
+    "Premium bubble hotel units manufactured in Egypt for resorts, glamping camps, eco lodges, and hospitality developers.",
 };
 
 export default function RootLayout({

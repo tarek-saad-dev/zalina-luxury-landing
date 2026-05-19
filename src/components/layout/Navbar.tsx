@@ -1,12 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Menu, X } from "lucide-react";
-import { navLinks } from "@/data/hero";
+import { navLinks } from "@/data/site";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeHash, setActiveHash] = useState("#home");
+
+  useEffect(() => {
+    const sectionIds = navLinks.map((l) => l.href.replace("#", ""));
+    const handleScroll = () => {
+      let current = "home";
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 200) current = id;
+        }
+      }
+      setActiveHash(`#${current}`);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <motion.nav
@@ -27,7 +46,7 @@ export default function Navbar() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "0 44px",
+        padding: "0 clamp(16px, 4vw, 44px)",
       }}
     >
       {/* Logo */}
@@ -37,7 +56,7 @@ export default function Navbar() {
           src="/images/zalina-logo-full.png"
           alt="Zalina Luxury Bubble Tents"
           style={{
-            height: "120px",
+            height: "clamp(80px, 12vw, 120px)",
             width: "auto",
             objectFit: "contain",
           }}
@@ -49,36 +68,41 @@ export default function Navbar() {
         className="hidden lg:flex"
         style={{ alignItems: "center", gap: "40px" }}
       >
-        {navLinks.map((link) => (
-          <a
-            key={link.label}
-            href={link.href}
-            style={{
-              fontSize: "14px",
-              fontWeight: 500,
-              color: link.active ? "#E1C982" : "rgba(246,239,228,0.82)",
-              textDecoration: "none",
-              position: "relative",
-              paddingBottom: "4px",
-              transition: "color 0.2s",
-            }}
-          >
-            {link.label}
-            {link.active && (
-              <span
-                style={{
-                  position: "absolute",
-                  bottom: "-2px",
-                  left: 0,
-                  right: 0,
-                  height: "2px",
-                  background: "#E1C982",
-                  borderRadius: "1px",
-                }}
-              />
-            )}
-          </a>
-        ))}
+        {navLinks.map((link) => {
+          const isActive = activeHash === link.href;
+          return (
+            <a
+              key={link.label}
+              href={link.href}
+              style={{
+                fontSize: "14px",
+                fontWeight: 500,
+                color: isActive ? "#E1C982" : "rgba(246,239,228,0.7)",
+                textDecoration: "none",
+                position: "relative",
+                paddingBottom: "4px",
+                transition: "color 0.25s",
+              }}
+            >
+              {link.label}
+              {isActive && (
+                <motion.span
+                  layoutId="nav-underline"
+                  style={{
+                    position: "absolute",
+                    bottom: "-2px",
+                    left: 0,
+                    right: 0,
+                    height: "2px",
+                    background: "#E1C982",
+                    borderRadius: "1px",
+                  }}
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+            </a>
+          );
+        })}
       </div>
 
       {/* Desktop CTA */}
@@ -154,23 +178,29 @@ export default function Navbar() {
               zIndex: 50,
             }}
           >
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                style={{
-                  fontSize: "15px",
-                  fontWeight: 500,
-                  color: link.active ? "#E1C982" : "rgba(246,239,228,0.82)",
-                  textDecoration: "none",
-                  paddingBottom: "12px",
-                  borderBottom: "1px solid rgba(255,255,255,0.06)",
-                }}
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = activeHash === link.href;
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  style={{
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    color: isActive ? "#E1C982" : "rgba(246,239,228,0.75)",
+                    textDecoration: "none",
+                    paddingBottom: "12px",
+                    borderBottom: isActive
+                      ? "1px solid rgba(200,164,93,0.25)"
+                      : "1px solid rgba(255,255,255,0.06)",
+                    transition: "color 0.2s",
+                  }}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
             <a
               href="#contact"
               onClick={() => setMobileOpen(false)}
