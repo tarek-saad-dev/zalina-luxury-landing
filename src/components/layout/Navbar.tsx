@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { navLinks } from "@/data/site";
+import { BRAND_IMAGES } from "@/lib/images";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -53,7 +54,7 @@ export default function Navbar() {
       <div style={{ display: "flex", alignItems: "center" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/zalina-logo-full.png"
+          src={BRAND_IMAGES.LOGO_FULL}
           alt="Zalina Luxury Bubble Tents"
           style={{
             height: "clamp(80px, 12vw, 120px)",

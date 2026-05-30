@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import LuxuryButton from "@/components/ui/LuxuryButton";
 import ModelPreviewCard from "@/components/ui/ModelPreviewCard";
 import { benefits, heroCopy } from "@/data/hero";
+import { HERO_IMAGES } from "@/lib/images";
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 20 },
@@ -48,7 +49,7 @@ export default function HeroSection() {
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/hero2.png"
+            src={HERO_IMAGES.SECONDARY}
             alt=""
             aria-hidden
             style={{

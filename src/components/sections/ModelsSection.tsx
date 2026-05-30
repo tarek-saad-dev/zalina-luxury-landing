@@ -4,40 +4,6 @@ import { motion } from "framer-motion";
 import { bubbleModels, modelSharedFeatures } from "@/data/models";
 import { Check, Wind, Sun, Shield } from "lucide-react";
 
-function CircularPlan({ size }: { size: string }) {
-  return (
-    <svg width="160" height="160" viewBox="0 0 160 160" fill="none" style={{ position: "relative", zIndex: 1 }}>
-      {/* Outer structural ring */}
-      <circle cx="80" cy="80" r="74" stroke="rgba(200,164,93,0.35)" strokeWidth="1.2" />
-      <circle cx="80" cy="80" r="71" stroke="rgba(200,164,93,0.12)" strokeWidth="0.6" />
-      {/* Inner zoning ring */}
-      <circle cx="80" cy="80" r="58" stroke="rgba(246,239,228,0.18)" strokeWidth="0.7" strokeDasharray="4 3" />
-      {/* Center point */}
-      <circle cx="80" cy="80" r="2.5" fill="rgba(200,164,93,0.6)" />
-      {/* Grid lines */}
-      <line x1="80" y1="10" x2="80" y2="150" stroke="rgba(246,239,228,0.06)" strokeWidth="0.5" />
-      <line x1="10" y1="80" x2="150" y2="80" stroke="rgba(246,239,228,0.06)" strokeWidth="0.5" />
-      <line x1="27" y1="27" x2="133" y2="133" stroke="rgba(246,239,228,0.04)" strokeWidth="0.4" />
-      <line x1="133" y1="27" x2="27" y2="133" stroke="rgba(246,239,228,0.04)" strokeWidth="0.4" />
-      {/* Bed zone */}
-      <rect x="55" y="26" width="50" height="28" rx="4" stroke="rgba(200,164,93,0.4)" strokeWidth="0.8" fill="rgba(200,164,93,0.04)" />
-      <text x="80" y="42" textAnchor="middle" dominantBaseline="middle" fontSize="7" fill="rgba(200,164,93,0.45)" fontFamily="system-ui, sans-serif">BED</text>
-      {/* Living zone */}
-      <rect x="48" y="100" width="64" height="22" rx="4" stroke="rgba(246,239,228,0.2)" strokeWidth="0.7" fill="rgba(246,239,228,0.02)" />
-      <text x="80" y="113" textAnchor="middle" dominantBaseline="middle" fontSize="7" fill="rgba(246,239,228,0.3)" fontFamily="system-ui, sans-serif">LIVING</text>
-      {/* Bath zone */}
-      <rect x="22" y="58" width="24" height="28" rx="3" stroke="rgba(246,239,228,0.15)" strokeWidth="0.6" fill="rgba(246,239,228,0.02)" />
-      <text x="34" y="74" textAnchor="middle" dominantBaseline="middle" fontSize="6" fill="rgba(246,239,228,0.25)" fontFamily="system-ui, sans-serif">BATH</text>
-      {/* Entry marker */}
-      <path d="M 80 148 L 74 155 L 86 155 Z" fill="rgba(200,164,93,0.3)" />
-      {/* Size label */}
-      <text x="80" y="80" textAnchor="middle" dominantBaseline="middle" fontSize="14" fill="rgba(200,164,93,0.7)" fontFamily="Georgia, serif" fontWeight="500">
-        {size}m
-      </text>
-    </svg>
-  );
-}
-
 export default function ModelsSection() {
   return (
     <section
@@ -120,24 +86,63 @@ export default function ModelsSection() {
                 overflow: "hidden",
               }}
             >
-              {/* Image placeholder */}
+              {/* Image container - bright and clear with subtle bottom gradient for text readability */}
               <div
                 style={{
-                  height: "240px",
-                  background: `linear-gradient(135deg, rgba(26,18,11,0.85) 0%, rgba(12,10,7,0.92) 100%), url(${model.image})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderBottom: "1px solid rgba(200,164,93,0.1)",
+                  height: "320px",
                   position: "relative",
                   overflow: "hidden",
+                  borderBottom: "1px solid rgba(200,164,93,0.1)",
                 }}
               >
-                {/* Subtle geometric pattern overlay */}
-                <div style={{ position: "absolute", inset: 0, opacity: 0.3 }} className="ornamental-pattern" />
-                <CircularPlan size={model.size} />
+                {/* Main product image - bright and clear */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={model.image}
+                  alt={model.name}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    objectPosition: "center",
+                  }}
+                />
+                {/* Subtle bottom gradient for text readability - only at bottom 30% */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: "35%",
+                    background: "linear-gradient(to top, rgba(10,8,5,0.85) 0%, rgba(10,8,5,0.4) 50%, transparent 100%)",
+                    pointerEvents: "none",
+                  }}
+                />
+                {/* Optional size badge */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "16px",
+                    left: "20px",
+                    padding: "6px 14px",
+                    borderRadius: "20px",
+                    background: "rgba(200,164,93,0.15)",
+                    border: "1px solid rgba(200,164,93,0.3)",
+                    backdropFilter: "blur(8px)",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "13px",
+                      fontWeight: 600,
+                      color: "#C8A45D",
+                      fontFamily: "var(--font-inter), system-ui, sans-serif",
+                    }}
+                  >
+                    {model.size}m Diameter
+                  </span>
+                </div>
               </div>
 
               {/* Content */}

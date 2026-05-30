@@ -184,7 +184,7 @@ export default function CustomDesignSection() {
           </motion.div>
         </div>
 
-        {/* Right image */}
+        {/* Right image - bright and clear interior showcase */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -196,64 +196,35 @@ export default function CustomDesignSection() {
             overflow: "hidden",
             aspectRatio: "4/5",
             maxHeight: "520px",
-            background: `linear-gradient(135deg, rgba(26,18,11,0.8) 0%, rgba(12,10,7,0.92) 100%), url(${image})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
             border: "1px solid rgba(200,164,93,0.12)",
           }}
         >
-          {/* Ornamental background */}
-          <div style={{ position: "absolute", inset: 0, opacity: 0.25 }} className="ornamental-pattern" />
-          <div
+          {/* Full bright interior image */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={image}
+            alt="Custom Interior Design"
             style={{
               position: "absolute",
               inset: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              gap: "16px",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
             }}
-          >
-            {/* Decorative rings */}
-            <div
-              style={{
-                width: "160px",
-                height: "160px",
-                borderRadius: "50%",
-                border: "1px solid rgba(200,164,93,0.2)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                position: "relative",
-              }}
-            >
-              <div
-                style={{
-                  width: "120px",
-                  height: "120px",
-                  borderRadius: "50%",
-                  border: "1px solid rgba(200,164,93,0.15)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "var(--font-playfair), Georgia, serif",
-                    fontSize: "13px",
-                    color: "rgba(200,164,93,0.55)",
-                    textAlign: "center",
-                    lineHeight: 1.4,
-                    letterSpacing: "1px",
-                  }}
-                >
-                  CUSTOM<br />INTERIOR
-                </span>
-              </div>
-            </div>
-          </div>
+          />
+          {/* Minimal bottom gradient for subtle depth - only 8% opacity */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: "25%",
+              background: "linear-gradient(to top, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.02) 50%, transparent 100%)",
+              pointerEvents: "none",
+            }}
+          />
         </motion.div>
       </div>
 

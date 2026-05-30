@@ -85,48 +85,75 @@ export default function UseCasesSection() {
                 borderRadius: "14px",
                 overflow: "hidden",
                 position: "relative",
-                minHeight: "260px",
-                background: `linear-gradient(180deg, rgba(7,6,4,0.15) 0%, rgba(7,6,4,0.88) 65%), linear-gradient(135deg, rgba(26,18,11,0.7) 0%, rgba(12,10,7,0.9) 100%), url(${card.image})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
+                minHeight: "280px",
                 border: "1px solid rgba(200,164,93,0.12)",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "flex-end",
-                padding: "28px 24px",
               }}
             >
-              {/* Decorative icon */}
+              {/* Full image with contain to show complete picture */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={card.image}
+                alt={card.title}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center center",
+                }}
+              />
+
+              {/* Minimal overlay - max 15% opacity for text readability */}
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "linear-gradient(180deg, rgba(7,6,4,0.05) 0%, rgba(7,6,4,0.15) 40%, rgba(7,6,4,0.55) 100%)",
+                  pointerEvents: "none",
+                }}
+              />
+
+              {/* Decorative icon - subtle */}
               {(() => {
                 const Icon = useCaseIcons[i % useCaseIcons.length];
                 return (
-                  <div style={{ position: "absolute", top: "20px", right: "20px", opacity: 0.3 }}>
-                    <Icon size={24} color="#C8A45D" />
+                  <div style={{ position: "absolute", top: "16px", right: "16px", opacity: 0.25, zIndex: 1 }}>
+                    <Icon size={22} color="#C8A45D" />
                   </div>
                 );
               })()}
-              <h3
-                style={{
-                  fontFamily: "var(--font-playfair), Georgia, serif",
-                  fontSize: "18px",
-                  fontWeight: 600,
-                  color: "#F6EFE4",
-                  marginBottom: "6px",
-                }}
-              >
-                {card.title}
-              </h3>
-              <p
-                style={{
-                  fontSize: "13px",
-                  lineHeight: 1.5,
-                  color: "rgba(246,239,228,0.6)",
-                  fontFamily: "var(--font-inter), system-ui, sans-serif",
-                  maxWidth: "260px",
-                }}
-              >
-                {card.description}
-              </p>
+
+              {/* Text content */}
+              <div style={{ position: "relative", zIndex: 1, padding: "28px 24px" }}>
+                <h3
+                  style={{
+                    fontFamily: "var(--font-playfair), Georgia, serif",
+                    fontSize: "18px",
+                    fontWeight: 600,
+                    color: "#F6EFE4",
+                    marginBottom: "6px",
+                    textShadow: "0 1px 3px rgba(0,0,0,0.3)",
+                  }}
+                >
+                  {card.title}
+                </h3>
+                <p
+                  style={{
+                    fontSize: "13px",
+                    lineHeight: 1.5,
+                    color: "rgba(246,239,228,0.75)",
+                    fontFamily: "var(--font-inter), system-ui, sans-serif",
+                    maxWidth: "260px",
+                    textShadow: "0 1px 2px rgba(0,0,0,0.2)",
+                  }}
+                >
+                  {card.description}
+                </p>
+              </div>
             </motion.div>
           ))}
         </div>

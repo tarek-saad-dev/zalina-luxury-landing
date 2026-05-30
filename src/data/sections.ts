@@ -1,5 +1,6 @@
 import { Truck, Construction, Gem, ShieldCheck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { CUSTOM_DESIGN_IMAGES, USE_CASE_IMAGES } from "@/lib/images";
 
 export interface PositioningCard {
   number: string;
@@ -69,7 +70,7 @@ export const customDesignData = {
     "Premium Materials",
     "Made in Egypt",
   ],
-  image: "/images/custom-interior.jpg",
+  image: CUSTOM_DESIGN_IMAGES.INTERIOR,
 };
 
 export interface UseCaseCard {
@@ -88,37 +89,37 @@ export const useCasesData = {
       title: "Desert Resorts",
       description:
         "Create premium stays in breathtaking desert landscapes with unforgettable views.",
-      image: "/images/use-desert.jpg",
+      image: USE_CASE_IMAGES.DESERT,
     },
     {
       title: "Eco Lodges",
       description:
         "Offer sustainable, low-impact accommodation with a unique architectural identity.",
-      image: "/images/use-eco.jpg",
+      image: USE_CASE_IMAGES.ECO,
     },
     {
       title: "Beach Resorts",
       description:
         "Add exclusive units for couples, honeymooners, and VIP guests seeking privacy and luxury.",
-      image: "/images/use-beach.jpg",
+      image: USE_CASE_IMAGES.BEACH,
     },
     {
       title: "Wellness Retreats",
       description:
         "Perfect for yoga, meditation, and nature-connected experiences that promote relaxation and renewal.",
-      image: "/images/use-wellness.jpg",
+      image: USE_CASE_IMAGES.WELLNESS,
     },
     {
       title: "Private Camps",
       description:
         "Build luxury accommodation for seasonal camps, destination events, and exclusive gatherings.",
-      image: "/images/use-camp.jpg",
+      image: USE_CASE_IMAGES.CAMP,
     },
     {
       title: "Investment Projects",
       description:
         "Launch a high-demand hospitality concept with strong ROI potential and exceptional guest appeal.",
-      image: "/images/use-investment.jpg",
+      image: USE_CASE_IMAGES.INVESTMENT,
     },
   ] as UseCaseCard[],
   benefits: [

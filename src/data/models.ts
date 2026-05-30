@@ -1,3 +1,5 @@
+import { MODEL_IMAGES } from "@/lib/images";
+
 export interface ModelSpec {
   label: string;
   value: string;
@@ -25,7 +27,7 @@ export const bubbleModels: BubbleModel[] = [
     size: "8",
     description:
       "Ideal for boutique resorts, compact glamping rooms, wellness cabins, and private retreat units.",
-    image: "/images/model-8m.jpg",
+    image: MODEL_IMAGES.BUBBLE_8M,
     specs: [
       { label: "Diameter", value: "8 meters" },
       { label: "Capacity", value: "2–3 guests" },
@@ -47,7 +49,7 @@ export const bubbleModels: BubbleModel[] = [
     size: "10",
     description:
       "A larger premium unit designed for luxury suites, honeymoon experiences, and high-value resort stays.",
-    image: "/images/model-10m.jpg",
+    image: MODEL_IMAGES.BUBBLE_10M,
     specs: [
       { label: "Diameter", value: "10 meters" },
       { label: "Capacity", value: "2–4 guests" },

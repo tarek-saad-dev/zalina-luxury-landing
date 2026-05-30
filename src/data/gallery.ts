@@ -1,3 +1,5 @@
+import { GALLERY_IMAGES } from "@/lib/images";
+
 export interface GalleryItem {
   src: string;
   alt: string;
@@ -7,31 +9,31 @@ export interface GalleryItem {
 
 export const galleryItems: GalleryItem[] = [
   {
-    src: "/images/gallery-1.jpg",
+    src: GALLERY_IMAGES.EXTERIOR_SUNSET,
     alt: "Luxury bubble tent exterior at sunset",
     category: "Exterior Views",
     span: "large",
   },
   {
-    src: "/images/gallery-2.jpg",
+    src: GALLERY_IMAGES.INTERIOR_SUITE,
     alt: "Premium bubble tent interior suite",
     category: "Interior Experience",
     span: "normal",
   },
   {
-    src: "/images/gallery-3.jpg",
+    src: GALLERY_IMAGES.NIGHT_AMBIENCE,
     alt: "Bubble tent resort at night with warm lighting",
     category: "Night Ambience",
     span: "normal",
   },
   {
-    src: "/images/gallery-4.jpg",
+    src: GALLERY_IMAGES.RESORT_LAYOUT,
     alt: "Multiple bubble units in resort layout",
     category: "Resort Layouts",
     span: "normal",
   },
   {
-    src: "/images/gallery-5.jpg",
+    src: GALLERY_IMAGES.TECHNICAL_DETAILS,
     alt: "Technical construction details",
     category: "Technical Details",
     span: "large",
