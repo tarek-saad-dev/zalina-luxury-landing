@@ -5,7 +5,7 @@ import { Gem } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import LuxuryButton from "@/components/ui/LuxuryButton";
 import ModelPreviewCard from "@/components/ui/ModelPreviewCard";
-import { benefits, heroCopy } from "@/data/hero";
+import { heroCopy } from "@/data/hero";
 import { HERO_IMAGES } from "@/lib/images";
 
 const fadeUp = (delay: number) => ({
@@ -26,25 +26,24 @@ export default function HeroSection() {
       }}
     >
       {/* ── Background image ── */}
-      {/* Place your real hero image at: public/images/hero.png */}
+      {/* Desktop and Mobile hero images with responsive switching */}
       <div
+        className="hero-background"
         style={{
           position: "absolute",
           inset: 0,
           zIndex: 0,
           overflow: "hidden",
-          /* Warm desert gradient fallback when image is absent */
-          background:
-            "linear-gradient(135deg, #12100c 0%, #1f1508 30%, #2a1e0f 52%, #1a120b 72%, #070604 100%)",
         }}
       >
-        {/* Zoomed out background - scale wrapper creates distance */}
+        {/* Desktop Hero Image */}
         <div
+          className="hero-desktop"
           style={{
             position: "absolute",
-            inset: "-8%",
-            width: "116%",
-            height: "116%",
+            inset: 0,
+            width: "100%",
+            height: "100%",
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -58,46 +57,64 @@ export default function HeroSection() {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              objectPosition: "55% 45%",
+              objectPosition: "center center",
+            }}
+          />
+        </div>
+        {/* Mobile Hero Image */}
+        <div
+          className="hero-mobile"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            display: "none",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={HERO_IMAGES.MOBILE}
+            alt=""
+            aria-hidden
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center center",
             }}
           />
         </div>
       </div>
 
-      {/* ── Overlay 1: main directional gradient - softer on right to show more scene ── */}
+      {/* ── Desktop Overlay: lighter directional gradient (left to right) ── */}
       <div
+        className="hero-overlay-desktop"
         aria-hidden
         style={{
           position: "absolute",
           inset: 0,
           zIndex: 1,
           background:
-            "linear-gradient(90deg, rgba(7,6,4,0.92) 0%, rgba(7,6,4,0.70) 32%, rgba(7,6,4,0.35) 58%, rgba(7,6,4,0.15) 100%)",
+            "linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.05) 100%)",
         }}
       />
-      {/* ── Overlay 2: top vignette ── */}
+      {/* ── Mobile Overlay: lighter top-to-bottom gradient ── */}
       <div
+        className="hero-overlay-mobile"
         aria-hidden
         style={{
           position: "absolute",
           inset: 0,
           zIndex: 1,
           background:
-            "linear-gradient(180deg, rgba(7,6,4,0.55), transparent 35%)",
+            "linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.10) 100%)",
+          display: "none",
         }}
       />
-      {/* ── Overlay 3: bottom vignette ── */}
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 1,
-          background:
-            "linear-gradient(0deg, rgba(7,6,4,0.86), transparent 45%)",
-        }}
-      />
-      {/* ── Ornamental geometric pattern (left edge) ── */}
+      {/* ── Ornamental geometric pattern (left edge) - very subtle ── */}
       <div
         aria-hidden
         className="ornamental-pattern"
@@ -107,7 +124,7 @@ export default function HeroSection() {
           top: 0,
           width: "320px",
           height: "100%",
-          opacity: 0.14,
+          opacity: 0.06,
           zIndex: 2,
           pointerEvents: "none",
         }}
@@ -213,7 +230,6 @@ export default function HeroSection() {
               style={{
                 display: "flex",
                 gap: "14px",
-                marginBottom: "40px",
                 flexWrap: "wrap",
               }}
             >
@@ -223,57 +239,6 @@ export default function HeroSection() {
               <LuxuryButton variant="secondary" href="#models">
                 {heroCopy.secondaryCta}
               </LuxuryButton>
-            </motion.div>
-
-            {/* Benefit cards grid */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-              className="benefits-grid"
-            >
-              {benefits.map((benefit, i) => (
-                <motion.div
-                  key={benefit.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 0.72 + i * 0.09,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="benefit-card"
-                >
-                  <benefit.icon
-                    size={18}
-                    color="#C8A45D"
-                    style={{ marginBottom: "10px", flexShrink: 0 }}
-                  />
-                  <h3
-                    style={{
-                      fontFamily: "var(--font-playfair), Georgia, serif",
-                      fontSize: "14px",
-                      lineHeight: 1.1,
-                      color: "#F6EFE4",
-                      marginBottom: "4px",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {benefit.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: "11px",
-                      lineHeight: 1.45,
-                      color: "rgba(246,239,228,0.55)",
-                      fontFamily: "var(--font-inter), system-ui, sans-serif",
-                      maxWidth: "140px",
-                    }}
-                  >
-                    {benefit.description}
-                  </p>
-                </motion.div>
-              ))}
             </motion.div>
           </div>
 
@@ -318,42 +283,40 @@ export default function HeroSection() {
 
       {/* ── Responsive styles via <style> tag ── */}
       <style>{`
+        /* Hero background image switching - Desktop default */
+        .hero-desktop {
+          display: block;
+        }
+        .hero-mobile {
+          display: none !important;
+        }
+        .hero-overlay-desktop {
+          display: block;
+        }
+        .hero-overlay-mobile {
+          display: none !important;
+        }
+
+        /* Mobile: switch to portrait hero image and overlay */
+        @media (max-width: 768px) {
+          .hero-desktop {
+            display: none !important;
+          }
+          .hero-mobile {
+            display: block !important;
+          }
+          .hero-overlay-desktop {
+            display: none !important;
+          }
+          .hero-overlay-mobile {
+            display: block !important;
+          }
+        }
+
         /* Hero title - desktop: exactly 2 lines, no wrap */
         .hero-title span {
           display: block;
           white-space: nowrap;
-        }
-
-        /* Benefits grid - compact premium layout */
-        .benefits-grid {
-          width: 100%;
-          max-width: 900px;
-          display: grid;
-          grid-template-columns: repeat(4, minmax(180px, 1fr));
-          gap: 14px;
-        }
-
-        .benefit-card {
-          min-height: 100px;
-          padding: 16px 18px;
-          border-radius: 12px;
-          background: rgba(8, 8, 8, 0.42);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(12px);
-          display: flex;
-          flex-direction: column;
-        }
-
-        @media (max-width: 1100px) {
-          .benefits-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            max-width: 600px;
-            gap: 12px;
-          }
-          .benefit-card {
-            min-height: 95px;
-            padding: 14px 16px;
-          }
         }
 
         @media (max-width: 1023px) {
@@ -393,22 +356,6 @@ export default function HeroSection() {
             padding-bottom: 32px !important;
             min-height: calc(100vh - 100px) !important;
           }
-          .benefits-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-            max-width: 100% !important;
-            gap: 10px !important;
-          }
-          .benefit-card {
-            min-height: auto;
-            padding: 14px 14px;
-          }
-          .benefit-card h3 {
-            font-size: 13px !important;
-          }
-          .benefit-card p {
-            font-size: 10px !important;
-            max-width: 100% !important;
-          }
           .partner-note {
             position: static !important;
             margin-top: 20px !important;
@@ -445,14 +392,7 @@ export default function HeroSection() {
         }
 
         @media (max-width: 479px) {
-          .benefits-grid {
-            grid-template-columns: 1fr !important;
-            gap: 10px !important;
-          }
-          .benefit-card {
-            padding: 14px 16px;
-            min-height: 85px;
-          }
+          /* Mobile specific styles if needed */
         }
       `}</style>
     </section>

@@ -1,16 +1,7 @@
-import { Truck, UserCog, LayoutDashboard, ShieldCheck } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
-
 export interface NavLink {
   label: string;
   href: string;
   active?: boolean;
-}
-
-export interface Benefit {
-  icon: LucideIcon;
-  title: string;
-  description: string;
 }
 
 export interface ModelItem {
@@ -24,29 +15,6 @@ export const navLinks: NavLink[] = [
   { label: "ROI", href: "#roi" },
   { label: "Gallery", href: "#gallery" },
   { label: "Contact", href: "#contact" },
-];
-
-export const benefits: Benefit[] = [
-  {
-    icon: Truck,
-    title: "Faster Delivery",
-    description: "Built & delivered on time, every time.",
-  },
-  {
-    icon: UserCog,
-    title: "Local Installation",
-    description: "Expert local teams across Egypt.",
-  },
-  {
-    icon: LayoutDashboard,
-    title: "Custom Designs",
-    description: "Tailored layouts to your vision.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Warranty & Maintenance",
-    description: "Long-term support for peace of mind.",
-  },
 ];
 
 export const models: ModelItem[] = [
