@@ -6,6 +6,7 @@ interface SelectProps {
   options: string[];
   required?: boolean;
   error?: string;
+  disabled?: boolean;
 }
 
 export default function Select({
@@ -16,6 +17,7 @@ export default function Select({
   options,
   required,
   error,
+  disabled,
 }: SelectProps) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
@@ -37,21 +39,23 @@ export default function Select({
         name={name}
         value={value}
         onChange={onChange}
+        disabled={disabled}
         style={{
           height: "48px",
           padding: "0 16px",
           borderRadius: "10px",
-          background: "rgba(10,8,5,0.6)",
+          background: disabled ? "rgba(10,8,5,0.3)" : "rgba(10,8,5,0.6)",
           border: error
             ? "1px solid rgba(220,80,80,0.6)"
             : "1px solid rgba(200,164,93,0.2)",
-          color: value ? "#F6EFE4" : "rgba(246,239,228,0.4)",
+          color: disabled ? "rgba(246,239,228,0.3)" : value ? "#F6EFE4" : "rgba(246,239,228,0.4)",
           fontSize: "14px",
           fontFamily: "var(--font-inter), system-ui, sans-serif",
           outline: "none",
-          cursor: "pointer",
+          cursor: disabled ? "not-allowed" : "pointer",
           appearance: "none",
-          transition: "border-color 0.2s",
+          transition: "border-color 0.2s, opacity 0.2s",
+          opacity: disabled ? 0.6 : 1,
         }}
         onFocus={(e) => {
           e.currentTarget.style.borderColor = "rgba(200,164,93,0.5)";

@@ -5,6 +5,8 @@ interface TextareaProps {
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder?: string;
   rows?: number;
+  disabled?: boolean;
+  maxLength?: number;
 }
 
 export default function Textarea({
@@ -14,6 +16,8 @@ export default function Textarea({
   onChange,
   placeholder,
   rows = 4,
+  disabled,
+  maxLength,
 }: TextareaProps) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
@@ -36,17 +40,21 @@ export default function Textarea({
         onChange={onChange}
         placeholder={placeholder}
         rows={rows}
+        disabled={disabled}
+        maxLength={maxLength}
         style={{
           padding: "14px 16px",
           borderRadius: "10px",
-          background: "rgba(10,8,5,0.6)",
+          background: disabled ? "rgba(10,8,5,0.3)" : "rgba(10,8,5,0.6)",
           border: "1px solid rgba(200,164,93,0.2)",
-          color: "#F6EFE4",
+          color: disabled ? "rgba(246,239,228,0.5)" : "#F6EFE4",
           fontSize: "14px",
           fontFamily: "var(--font-inter), system-ui, sans-serif",
           outline: "none",
           resize: "vertical",
-          transition: "border-color 0.2s",
+          transition: "border-color 0.2s, opacity 0.2s",
+          cursor: disabled ? "not-allowed" : "text",
+          opacity: disabled ? 0.6 : 1,
         }}
         onFocus={(e) => {
           e.currentTarget.style.borderColor = "rgba(200,164,93,0.5)";

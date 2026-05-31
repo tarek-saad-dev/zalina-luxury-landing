@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Check, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { contactData } from "@/data/sections";
 import Input from "@/components/ui/Input";
 import Textarea from "@/components/ui/Textarea";
@@ -17,6 +17,7 @@ interface FormData {
   units: string;
   projectType: string;
   message: string;
+  honeypot: string;
 }
 
 interface FormErrors {
@@ -25,12 +26,14 @@ interface FormErrors {
   email?: string;
   units?: string;
   projectType?: string;
+  submit?: string;
 }
 
 export default function ContactSection() {
-  const { eyebrow, heading, subtitle, contactPoints, projectTypes, successMessage } = contactData;
+  const { eyebrow, heading, subtitle, contactPoints, projectTypes } = contactData;
 
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
   const [form, setForm] = useState<FormData>({
     fullName: "",
@@ -41,6 +44,7 @@ export default function ContactSection() {
     units: "",
     projectType: "",
     message: "",
+    honeypot: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -54,7 +58,9 @@ export default function ContactSection() {
     const newErrors: FormErrors = {};
     if (!form.fullName.trim()) newErrors.fullName = "Full name is required";
     if (!form.phone.trim()) newErrors.phone = "Phone number is required";
-    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+    if (!form.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       newErrors.email = "Invalid email format";
     }
     if (form.units && Number(form.units) < 1) newErrors.units = "Minimum 1 unit";
@@ -63,10 +69,46 @@ export default function ContactSection() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) {
+    if (!validate() || loading) return;
+
+    setLoading(true);
+    setErrors({});
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fullName: form.fullName.trim(),
+          companyName: form.company.trim() || undefined,
+          phone: form.phone.trim(),
+          email: form.email.trim(),
+          projectLocation: form.location.trim() || undefined,
+          numberOfUnits: form.units.trim() || undefined,
+          projectType: form.projectType,
+          message: form.message.trim() || undefined,
+          honeypot: form.honeypot,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+
       setSubmitted(true);
+    } catch (error) {
+      console.error("Form submission error:", error);
+      setErrors({
+        submit: error instanceof Error ? error.message : "Failed to send message. Please try again.",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -237,46 +279,93 @@ export default function ContactSection() {
                     lineHeight: 1.7,
                   }}
                 >
-                  {successMessage}
+                  Thank you. Your request has been received. Our team will contact you shortly.
                 </p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit}>
                 <div className="form-grid" style={{ display: "grid", gap: "18px", marginBottom: "24px" }}>
-                  <Input label="Full Name" name="fullName" value={form.fullName} onChange={handleChange} required error={errors.fullName} />
-                  <Input label="Company / Resort Name" name="company" value={form.company} onChange={handleChange} />
-                  <Input label="Phone Number" name="phone" type="tel" value={form.phone} onChange={handleChange} required error={errors.phone} />
-                  <Input label="Email Address" name="email" type="email" value={form.email} onChange={handleChange} error={errors.email} />
-                  <Input label="Project Location" name="location" value={form.location} onChange={handleChange} />
-                  <Input label="Number of Units Needed" name="units" type="number" value={form.units} onChange={handleChange} min="1" error={errors.units} />
+                  {/* Honeypot field - hidden from users, visible to bots */}
+                  <div style={{ position: "absolute", left: "-9999px", opacity: 0 }} aria-hidden="true">
+                    <Input
+                      label="Leave this empty"
+                      name="honeypot"
+                      value={form.honeypot}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <Input label="Full Name" name="fullName" value={form.fullName} onChange={handleChange} required error={errors.fullName} disabled={loading} />
+                  <Input label="Company / Resort Name" name="company" value={form.company} onChange={handleChange} disabled={loading} />
+                  <Input label="Phone Number" name="phone" type="tel" value={form.phone} onChange={handleChange} required error={errors.phone} disabled={loading} />
+                  <Input label="Email Address" name="email" type="email" value={form.email} onChange={handleChange} required error={errors.email} disabled={loading} />
+                  <Input label="Project Location" name="location" value={form.location} onChange={handleChange} disabled={loading} />
+                  <Input label="Number of Units Needed" name="units" type="number" value={form.units} onChange={handleChange} min="1" error={errors.units} disabled={loading} />
                   <div style={{ gridColumn: "1 / -1" }}>
-                    <Select label="Project Type" name="projectType" value={form.projectType} onChange={handleChange} options={projectTypes} required error={errors.projectType} />
+                    <Select label="Project Type" name="projectType" value={form.projectType} onChange={handleChange} options={projectTypes} required error={errors.projectType} disabled={loading} />
                   </div>
                   <div style={{ gridColumn: "1 / -1" }}>
-                    <Textarea label="Message" name="message" value={form.message} onChange={handleChange} placeholder="Tell us about your project..." />
+                    <Textarea label="Message" name="message" value={form.message} onChange={handleChange} placeholder="Tell us about your project..." disabled={loading} maxLength={2000} />
                   </div>
                 </div>
+
+                {/* Error Message */}
+                <AnimatePresence>
+                  {errors.submit && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        padding: "12px 16px",
+                        background: "rgba(239, 68, 68, 0.1)",
+                        border: "1px solid rgba(239, 68, 68, 0.3)",
+                        borderRadius: "8px",
+                        marginBottom: "16px",
+                      }}
+                    >
+                      <AlertCircle size={18} color="#ef4444" />
+                      <span style={{ fontSize: "14px", color: "#ef4444" }}>{errors.submit}</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
                 <button
                   type="submit"
+                  disabled={loading}
                   style={{
                     height: "50px",
                     padding: "0 32px",
                     borderRadius: "8px",
-                    background: "linear-gradient(135deg, #C8A45D, #8F6B32)",
+                    background: loading
+                      ? "linear-gradient(135deg, #8F6B32, #6B4E24)"
+                      : "linear-gradient(135deg, #C8A45D, #8F6B32)",
                     border: "1px solid rgba(225,201,130,0.3)",
                     color: "#fff",
                     fontSize: "14px",
                     fontWeight: 500,
-                    cursor: "pointer",
+                    cursor: loading ? "not-allowed" : "pointer",
                     display: "inline-flex",
                     alignItems: "center",
                     gap: "10px",
                     fontFamily: "var(--font-inter), system-ui, sans-serif",
                     boxShadow: "0 10px 30px rgba(200,164,93,0.18)",
-                    transition: "box-shadow 0.3s ease, transform 0.2s ease",
+                    transition: "box-shadow 0.3s ease, transform 0.2s ease, opacity 0.3s ease",
+                    opacity: loading ? 0.8 : 1,
                   }}
                 >
-                  Request Consultation <ArrowRight size={14} />
+                  {loading ? (
+                    <>
+                      <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Request Consultation <ArrowRight size={14} />
+                    </>
+                  )}
                 </button>
               </form>
             )}
@@ -285,6 +374,10 @@ export default function ContactSection() {
       </div>
 
       <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
         .contact-card {
           grid-template-columns: 1fr;
         }
