@@ -5,10 +5,10 @@
 
 export const MODEL_IMAGES = {
   /** 8-meter bubble unit - ideal for boutique resorts and compact glamping */
-  BUBBLE_8M: "/images/8m.png",
+  BUBBLE_8M: "/images/images-03.jpg",
 
   /** 10-meter bubble unit - luxury suites and high-end resorts */
-  BUBBLE_10M: "/images/images-03.jpg",
+  BUBBLE_10M: "/images/8m.png",
 } as const;
 
 /** Type for model image keys */
