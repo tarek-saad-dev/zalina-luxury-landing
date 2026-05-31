@@ -8,7 +8,7 @@ export const MODEL_IMAGES = {
   BUBBLE_8M: "/images/8m.png",
 
   /** 10-meter bubble unit - luxury suites and high-end resorts */
-  BUBBLE_10M: "/images/10m.png",
+  BUBBLE_10M: "/images/images-03.jpg",
 } as const;
 
 /** Type for model image keys */

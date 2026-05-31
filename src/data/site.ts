@@ -1,8 +1,9 @@
 export const siteConfig = {
   name: "Zalina Luxury Bubble Tents",
-  tagline: "Luxury bubble tents manufactured in Egypt for resorts, glamping camps, and hospitality developers.",
-  email: "info@zalina.com",
-  phone: "+20 000 000 0000",
+  tagline:
+    "Luxury bubble tents manufactured in Egypt for resorts, glamping camps, and hospitality developers.",
+  email: "hanan.freestyledevelopmentllc@gmail.com",
+  phone: "+1 623 204 1074",
   copyright: "© 2026 Zalina Luxury Bubble Tents. All rights reserved.",
 };
 
