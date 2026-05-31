@@ -18,7 +18,7 @@ export default function HeroSection() {
   return (
     <section
       style={{
-        minHeight: "100vh",
+        minHeight: "100dvh",
         position: "relative",
         overflow: "hidden",
         paddingTop: "24px",
@@ -77,13 +77,14 @@ export default function HeroSection() {
             src={HERO_IMAGES.MOBILE}
             alt=""
             aria-hidden
+            className="hero-mobile-img"
             style={{
               position: "absolute",
               inset: 0,
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              objectPosition: "center center",
+              objectPosition: "center 75%",
             }}
           />
         </div>
@@ -148,7 +149,7 @@ export default function HeroSection() {
             display: "grid",
             gridTemplateColumns: "1fr 0.85fr",
             alignItems: "center",
-            minHeight: "calc(100vh - 120px)",
+            minHeight: "calc(100dvh - 120px)",
             paddingTop: "clamp(60px, 8vh, 100px)",
             paddingBottom: "60px",
             gap: "60px",
@@ -352,47 +353,116 @@ export default function HeroSection() {
             padding: 0 20px !important;
           }
           .hero-grid {
-            padding-top: 48px !important;
-            padding-bottom: 32px !important;
-            min-height: calc(100vh - 100px) !important;
+            padding-top: 24px !important;
+            padding-bottom: 16px !important;
+            min-height: calc(100dvh - 90px) !important;
+            gap: 20px !important;
           }
           .partner-note {
             position: static !important;
-            margin-top: 20px !important;
+            margin-top: 12px !important;
             padding-inline: 24px;
-            padding-bottom: 20px;
+            padding-bottom: 16px;
           }
           .hero-eyebrow {
-            font-size: 10px !important;
+            font-size: 9px !important;
             letter-spacing: 3px !important;
-            margin-bottom: 24px !important;
+            margin-bottom: 16px !important;
           }
           .hero-title {
-            font-size: clamp(36px, 9vw, 52px) !important;
+            font-size: clamp(32px, 8.5vw, 48px) !important;
             max-width: 100% !important;
-            line-height: 1.0 !important;
+            line-height: 1.05 !important;
+            margin-bottom: 16px !important;
           }
           .hero-title span {
             white-space: normal;
           }
+          .gold-divider {
+            margin-bottom: 16px !important;
+          }
           .hero-desc {
-            font-size: 15px !important;
-            margin-bottom: 36px !important;
+            font-size: 14px !important;
+            line-height: 1.55 !important;
+            margin-bottom: 24px !important;
+            max-width: 100% !important;
           }
           .hero-cta-row {
             flex-direction: column !important;
-            gap: 12px !important;
-            margin-bottom: 48px !important;
+            gap: 10px !important;
+            margin-bottom: 0 !important;
           }
           .hero-cta-row a,
           .hero-cta-row button {
             width: 100% !important;
             justify-content: center !important;
+            padding: 14px 20px !important;
+            font-size: 14px !important;
+          }
+          /* Ensure bubble is visible - adjust image position for smaller screens */
+          .hero-mobile-img {
+            object-position: center 80% !important;
           }
         }
 
-        @media (max-width: 479px) {
-          /* Mobile specific styles if needed */
+        /* iPhone 14/15 Pro Max (430px), iPhone 14/15 Pro (393px), iPhone SE (375px) */
+        @media (max-width: 430px) {
+          .hero-grid {
+            min-height: calc(100dvh - 85px) !important;
+            padding-top: 20px !important;
+          }
+          .hero-title {
+            font-size: clamp(30px, 8vw, 40px) !important;
+          }
+          .hero-desc {
+            font-size: 13.5px !important;
+          }
+        }
+
+        /* iPhone SE, smaller devices (375px and below) */
+        @media (max-width: 375px) {
+          .hero-grid {
+            min-height: calc(100dvh - 80px) !important;
+            padding-top: 16px !important;
+          }
+          .hero-eyebrow {
+            margin-bottom: 12px !important;
+          }
+          .hero-title {
+            font-size: 28px !important;
+          }
+          .hero-desc {
+            font-size: 13px !important;
+            margin-bottom: 20px !important;
+          }
+          .hero-mobile-img {
+            object-position: center 85% !important;
+          }
+        }
+
+        /* Very small devices (360px) */
+        @media (max-width: 360px) {
+          .hero-grid {
+            min-height: calc(100dvh - 75px) !important;
+          }
+          .hero-title {
+            font-size: 26px !important;
+          }
+          .hero-desc {
+            font-size: 12.5px !important;
+          }
+        }
+
+        /* Handle notch areas and safe zones */
+        @supports (padding-top: env(safe-area-inset-top)) {
+          @media (max-width: 767px) {
+            section {
+              min-height: calc(100dvh - env(safe-area-inset-top)) !important;
+            }
+            .hero-grid {
+              min-height: calc(100dvh - 90px - env(safe-area-inset-top)) !important;
+            }
+          }
         }
       `}</style>
     </section>
