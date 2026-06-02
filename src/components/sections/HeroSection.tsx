@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Gem } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
@@ -15,6 +16,15 @@ const fadeUp = (delay: number) => ({
 });
 
 export default function HeroSection() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true;
+    video.play().catch(() => { });
+  }, []);
+
   return (
     <section
       style={{
@@ -36,30 +46,43 @@ export default function HeroSection() {
           overflow: "hidden",
         }}
       >
-        {/* Desktop Hero Image */}
+        {/* Desktop Hero Video */}
         <div
           className="hero-desktop"
           style={{
             position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
+            top: "-3%",
+            left: "-3%",
+            width: "106%",
+            height: "106%",
+            willChange: "auto",
+            transform: "translateZ(0)",
+            backfaceVisibility: "hidden",
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={HERO_IMAGES.SECONDARY}
-            alt=""
-            aria-hidden
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="hero-video-bg"
             style={{
+              display: "block",
               position: "absolute",
-              inset: 0,
+              top: 0,
+              left: 0,
               width: "100%",
               height: "100%",
               objectFit: "cover",
               objectPosition: "center center",
+              filter: "blur(1.2px)",
+              transform: "translateZ(0)",
+              backfaceVisibility: "hidden",
             }}
-          />
+          >
+            <source src="/images/bg_horizontal.mp4" type="video/mp4" />
+          </video>
         </div>
         {/* Mobile Hero Image */}
         <div
@@ -90,7 +113,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* ── Desktop Overlay: lighter directional gradient (left to right) ── */}
+      {/* ── Desktop Overlay: cinematic directional gradient ── */}
       <div
         className="hero-overlay-desktop"
         aria-hidden
@@ -98,11 +121,36 @@ export default function HeroSection() {
           position: "absolute",
           inset: 0,
           zIndex: 1,
-          background:
-            "linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.05) 100%)",
+          background: `
+            linear-gradient(105deg,
+              rgba(4,3,2,0.80) 0%,
+              rgba(4,3,2,0.52) 38%,
+              rgba(4,3,2,0.22) 65%,
+              rgba(4,3,2,0.35) 100%
+            )
+          `,
+          pointerEvents: "none",
         }}
       />
-      {/* ── Mobile Overlay: lighter top-to-bottom gradient ── */}
+      {/* ── Desktop vignette: stronger edge containment ── */}
+      <div
+        className="hero-overlay-desktop"
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 1,
+          background: `
+            radial-gradient(ellipse 110% 90% at 50% 50%,
+              transparent 30%,
+              rgba(2,2,1,0.55) 72%,
+              rgba(2,2,1,0.82) 100%
+            )
+          `,
+          pointerEvents: "none",
+        }}
+      />
+      {/* ── Mobile Overlay ── */}
       <div
         className="hero-overlay-mobile"
         aria-hidden
@@ -111,21 +159,20 @@ export default function HeroSection() {
           inset: 0,
           zIndex: 1,
           background:
-            "linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.10) 100%)",
+            "linear-gradient(180deg, rgba(4,3,2,0.6) 0%, rgba(4,3,2,0.3) 40%, rgba(4,3,2,0.15) 100%)",
           display: "none",
         }}
       />
-      {/* ── Ornamental geometric pattern (left edge) - very subtle ── */}
+      {/* ── Glow behind headline (left-center) ── */}
       <div
         aria-hidden
-        className="ornamental-pattern"
         style={{
           position: "absolute",
-          left: 0,
-          top: 0,
-          width: "320px",
-          height: "100%",
-          opacity: 0.06,
+          left: "-5%",
+          top: "20%",
+          width: "55%",
+          height: "60%",
+          background: "radial-gradient(ellipse at 30% 50%, rgba(200,164,93,0.07) 0%, transparent 65%)",
           zIndex: 2,
           pointerEvents: "none",
         }}
@@ -284,6 +331,13 @@ export default function HeroSection() {
 
       {/* ── Responsive styles via <style> tag ── */}
       <style>{`
+        /* Video — no motion, GPU-composited, stable */
+        .hero-video-bg {
+          animation: none !important;
+          transform: translateZ(0);
+          will-change: auto;
+        }
+
         /* Hero background image switching - Desktop default */
         .hero-desktop {
           display: block;

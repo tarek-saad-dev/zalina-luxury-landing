@@ -39,11 +39,12 @@ export default function Navbar() {
         zIndex: 30,
         height: "72px",
         marginTop: "16px",
-        borderRadius: "12px",
-        border: "1px solid rgba(255,255,255,0.12)",
-        background: "rgba(8,8,8,0.38)",
-        backdropFilter: "blur(18px)",
-        boxShadow: "0 16px 60px rgba(0,0,0,0.22)",
+        borderRadius: "14px",
+        border: "1px solid rgba(200,164,93,0.14)",
+        background: "rgba(7,6,4,0.48)",
+        backdropFilter: "blur(24px) saturate(160%)",
+        WebkitBackdropFilter: "blur(24px) saturate(160%)",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.04)",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -110,30 +111,33 @@ export default function Navbar() {
       <div className="hidden lg:flex">
         <motion.a
           href="#contact"
+          className="navbar-cta"
           style={{
             height: "40px",
-            padding: "0 22px",
-            borderRadius: "6px",
-            background: "linear-gradient(135deg, #C8A45D, #8F6B32)",
-            color: "#fff",
-            fontSize: "13px",
-            fontWeight: 500,
+            padding: "0 24px",
+            borderRadius: "8px",
+            background: "linear-gradient(135deg, #D4AE6A 0%, #B8903E 50%, #9A7430 100%)",
+            color: "#1a1200",
+            fontSize: "12.5px",
+            fontWeight: 600,
+            letterSpacing: "0.04em",
             display: "flex",
             alignItems: "center",
             gap: "8px",
             textDecoration: "none",
-            boxShadow: "0 4px 16px rgba(200,164,93,0.18)",
+            boxShadow: "0 2px 12px rgba(200,164,93,0.22), inset 0 1px 0 rgba(255,255,255,0.18)",
             whiteSpace: "nowrap",
+            transition: "all 0.25s ease",
           }}
           whileHover={{
             y: -2,
-            boxShadow: "0 8px 24px rgba(200,164,93,0.28)",
+            boxShadow: "0 6px 20px rgba(200,164,93,0.38), inset 0 1px 0 rgba(255,255,255,0.22)",
           }}
-          whileTap={{ scale: 0.98 }}
-          transition={{ duration: 0.2 }}
+          whileTap={{ scale: 0.97 }}
+          transition={{ duration: 0.22 }}
         >
           Request a Consultation
-          <ArrowRight size={12} />
+          <ArrowRight size={11} strokeWidth={2.5} />
         </motion.a>
       </div>
 

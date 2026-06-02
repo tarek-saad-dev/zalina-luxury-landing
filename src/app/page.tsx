@@ -1,4 +1,5 @@
 import HeroSection from "@/components/sections/HeroSection";
+import TrustStrip from "@/components/sections/TrustStrip";
 import PositioningSection from "@/components/sections/PositioningSection";
 import ModelsSection from "@/components/sections/ModelsSection";
 import CustomDesignSection from "@/components/sections/CustomDesignSection";
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <main id="home">
       <HeroSection />
+      <TrustStrip />
       <PositioningSection />
       <div className="section-divider" />
       <ModelsSection />

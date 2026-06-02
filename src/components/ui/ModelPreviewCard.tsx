@@ -67,36 +67,40 @@ export default function ModelPreviewCard() {
       initial={{ opacity: 0, x: 30 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.8, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -3, boxShadow: "0 28px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,164,93,0.28)" }}
       style={{
-        background: "rgba(15,10,6,0.55)",
-        border: "1px solid rgba(200,164,93,0.25)",
-        backdropFilter: "blur(16px)",
-        borderRadius: "10px",
-        boxShadow: "0 16px 48px rgba(0,0,0,0.32)",
-        padding: "14px 16px",
-        width: "280px",
+        background: "linear-gradient(145deg, rgba(18,13,8,0.72) 0%, rgba(10,8,5,0.82) 100%)",
+        border: "1px solid rgba(200,164,93,0.22)",
+        backdropFilter: "blur(20px) saturate(140%)",
+        WebkitBackdropFilter: "blur(20px) saturate(140%)",
+        borderRadius: "12px",
+        boxShadow: "0 20px 56px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.04)",
+        padding: "16px 18px",
+        width: "290px",
         maxWidth: "100%",
+        transition: "box-shadow 0.3s ease",
       }}
     >
       {/* Card title */}
       <div
         style={{
-          fontSize: "10px",
-          letterSpacing: "3px",
-          color: "rgba(200,164,93,0.7)",
+          fontSize: "9.5px",
+          letterSpacing: "3.5px",
+          color: "#C8A45D",
           textTransform: "uppercase",
-          marginBottom: "3px",
-          fontWeight: 500,
+          marginBottom: "4px",
+          fontWeight: 600,
+          fontFamily: "var(--font-inter), system-ui, sans-serif",
         }}
       >
         {heroCopy.modelsCardTitle}
       </div>
       <div
         style={{
-          width: "24px",
+          width: "28px",
           height: "1px",
-          background: "rgba(200,164,93,0.4)",
-          marginBottom: "10px",
+          background: "linear-gradient(90deg, rgba(200,164,93,0.6), transparent)",
+          marginBottom: "12px",
         }}
       />
 
@@ -136,8 +140,8 @@ export default function ModelPreviewCard() {
       {/* CTA */}
       <div
         style={{
-          marginTop: "10px",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          marginTop: "12px",
+          borderTop: "1px solid rgba(200,164,93,0.1)",
           paddingTop: "10px",
           textAlign: "center",
         }}
@@ -146,16 +150,19 @@ export default function ModelPreviewCard() {
           href="#models"
           style={{
             color: "#C8A45D",
-            fontSize: "12px",
+            fontSize: "11.5px",
             fontWeight: 500,
-            letterSpacing: "0.3px",
+            letterSpacing: "0.5px",
             cursor: "pointer",
-            display: "inline-block",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "5px",
+            fontFamily: "var(--font-inter), system-ui, sans-serif",
           }}
-          whileHover={{ x: 3 }}
-          transition={{ duration: 0.2 }}
+          whileHover={{ x: 4 }}
+          transition={{ duration: 0.22 }}
         >
-          {heroCopy.modelsCardCta}
+          {heroCopy.modelsCardCta} →
         </motion.a>
       </div>
     </motion.div>
