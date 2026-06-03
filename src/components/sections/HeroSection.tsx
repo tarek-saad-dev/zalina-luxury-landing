@@ -7,7 +7,6 @@ import Navbar from "@/components/layout/Navbar";
 import LuxuryButton from "@/components/ui/LuxuryButton";
 import ModelPreviewCard from "@/components/ui/ModelPreviewCard";
 import { heroCopy } from "@/data/hero";
-import { HERO_IMAGES } from "@/lib/images";
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 20 },
@@ -84,32 +83,41 @@ export default function HeroSection() {
             <source src="/images/bg_horizontal.mp4" type="video/mp4" />
           </video>
         </div>
-        {/* Mobile Hero Image */}
+        {/* Mobile Hero Video */}
         <div
           className="hero-mobile"
           style={{
             position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
+            top: "-3%",
+            left: "-3%",
+            width: "106%",
+            height: "106%",
             display: "none",
+            transform: "translateZ(0)",
+            backfaceVisibility: "hidden",
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={HERO_IMAGES.MOBILE}
-            alt=""
-            aria-hidden
-            className="hero-mobile-img"
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
             style={{
+              display: "block",
               position: "absolute",
-              inset: 0,
+              top: 0,
+              left: 0,
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              objectPosition: "center 75%",
+              objectPosition: "center center",
+              filter: "blur(1.2px)",
+              transform: "translateZ(0)",
+              backfaceVisibility: "hidden",
             }}
-          />
+          >
+            <source src="/images/vertical.mp4" type="video/mp4" />
+          </video>
         </div>
       </div>
 
