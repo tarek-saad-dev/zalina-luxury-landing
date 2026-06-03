@@ -26,6 +26,7 @@ export default function HeroSection() {
 
   return (
     <section
+      className="hero-section"
       style={{
         minHeight: "100dvh",
         position: "relative",
@@ -417,14 +418,16 @@ export default function HeroSection() {
           .hero-grid {
             padding-top: 24px !important;
             padding-bottom: 16px !important;
-            min-height: calc(100dvh - 90px) !important;
-            gap: 20px !important;
+            min-height: 0 !important;
+            height: calc(100dvh - 110px) !important;
+            gap: 16px !important;
+            overflow: hidden;
+          }
+          .model-card-col {
+            display: none !important;
           }
           .partner-note {
-            position: static !important;
-            margin-top: 12px !important;
-            padding-inline: 24px;
-            padding-bottom: 16px;
+            display: none !important;
           }
           .hero-eyebrow {
             font-size: 9px !important;
@@ -470,7 +473,6 @@ export default function HeroSection() {
         /* iPhone 14/15 Pro Max (430px), iPhone 14/15 Pro (393px), iPhone SE (375px) */
         @media (max-width: 430px) {
           .hero-grid {
-            min-height: calc(100dvh - 85px) !important;
             padding-top: 20px !important;
           }
           .hero-title {
@@ -484,7 +486,6 @@ export default function HeroSection() {
         /* iPhone SE, smaller devices (375px and below) */
         @media (max-width: 375px) {
           .hero-grid {
-            min-height: calc(100dvh - 80px) !important;
             padding-top: 16px !important;
           }
           .hero-eyebrow {
@@ -505,7 +506,7 @@ export default function HeroSection() {
         /* Very small devices (360px) */
         @media (max-width: 360px) {
           .hero-grid {
-            min-height: calc(100dvh - 75px) !important;
+            height: calc(100dvh - 100px) !important;
           }
           .hero-title {
             font-size: 26px !important;
@@ -515,11 +516,21 @@ export default function HeroSection() {
           }
         }
 
-        /* Handle notch areas and safe zones */
+        /* Constrain hero section height on mobile — prevents overflow gap */
+        @media (max-width: 767px) {
+          .hero-section {
+            height: 100dvh;
+            max-height: 100dvh;
+          }
+        }
+
+        /* Handle notch areas and safe zones — scoped to hero only */
         @supports (padding-top: env(safe-area-inset-top)) {
           @media (max-width: 767px) {
-            section {
+            .hero-section {
               min-height: calc(100dvh - env(safe-area-inset-top)) !important;
+              height: auto;
+              max-height: none;
             }
             .hero-grid {
               min-height: calc(100dvh - 90px - env(safe-area-inset-top)) !important;
