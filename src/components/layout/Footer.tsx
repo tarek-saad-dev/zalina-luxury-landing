@@ -165,6 +165,10 @@ export default function Footer() {
           style={{
             borderTop: "1px solid rgba(200,164,93,0.08)",
             paddingTop: "24px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "8px",
             textAlign: "center",
           }}
         >
@@ -177,6 +181,21 @@ export default function Footer() {
           >
             {siteConfig.copyright}
           </p>
+          <a
+            href="https://drvotech.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-credit"
+            style={{
+              fontSize: "12px",
+              color: "rgba(246,239,228,0.35)",
+              textDecoration: "none",
+              fontFamily: "var(--font-inter), system-ui, sans-serif",
+            }}
+          >
+            Developed by{" "}
+            <span style={{ color: "#C8A45D" }}>Drvotech</span>
+          </a>
         </div>
       </div>
 
@@ -186,6 +205,9 @@ export default function Footer() {
         }
         .footer-grid a:hover {
           color: #C8A45D !important;
+        }
+        .footer-credit:hover {
+          color: rgba(246,239,228,0.6) !important;
         }
         @media (max-width: 768px) {
           .footer-grid {

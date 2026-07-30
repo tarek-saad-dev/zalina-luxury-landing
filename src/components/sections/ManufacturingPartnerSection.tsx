@@ -10,12 +10,14 @@ const partners = [
     role: "Manufacturing Partner",
     logo: "/images/partner1.png",
     description: "Premium furniture manufacturing with decades of craftsmanship expertise",
+    link: null as string | null,
   },
   {
     name: "DRVOTECH",
     role: "Technology Partner",
     logo: "/images/partner2.png",
     description: "Digital innovation and technical infrastructure solutions",
+    link: "https://drvotech.com/",
   },
 ];
 
@@ -161,8 +163,11 @@ export default function ManufacturingPartnerSection() {
           className="partners-grid"
         >
           {partners.map((partner, index) => (
-            <motion.div
+            <motion.a
               key={partner.name}
+              href={partner.link ?? undefined}
+              target={partner.link ? "_blank" : undefined}
+              rel={partner.link ? "noopener noreferrer" : undefined}
               {...fadeUp(0.4 + index * 0.1)}
               className="partner-card"
               whileHover={{ scale: 1.02, y: -4 }}
@@ -181,7 +186,9 @@ export default function ManufacturingPartnerSection() {
                   inset 0 1px 0 rgba(255,255,255,0.03)
                 `,
                 overflow: "hidden",
-                cursor: "pointer",
+                cursor: partner.link ? "pointer" : "default",
+                textDecoration: "none",
+                display: "block",
               }}
             >
               {/* Card glow effect on hover */}
@@ -300,7 +307,7 @@ export default function ManufacturingPartnerSection() {
                   borderRadius: "1px",
                 }}
               />
-            </motion.div>
+            </motion.a>
           ))}
         </div>
       </div>
