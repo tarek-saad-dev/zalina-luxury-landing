@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Zalina Luxury" }],
   creator: "Zalina Luxury",
   publisher: "Zalina Luxury",
-  metadataBase: new URL("https://zalinaluxury.com"),
+  metadataBase: new URL("https://zalinaluxuryhotelcamp.com"),
   alternates: {
     canonical: "/",
   },
@@ -79,9 +79,10 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon.png", type: "image/png", sizes: "32x32" },
+      { url: "/icon-48.png", type: "image/png", sizes: "48x48" },
     ],
-    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/icon.png", type: "image/png" }],
   },
   manifest: "/manifest.json",
 };
