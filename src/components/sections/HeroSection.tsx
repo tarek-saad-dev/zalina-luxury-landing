@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Gem } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import LuxuryButton from "@/components/ui/LuxuryButton";
 import ModelPreviewCard from "@/components/ui/ModelPreviewCard";
+import { useHeroReady } from "@/components/experience/HeroReadyContext";
 import { heroCopy } from "@/data/hero";
+import { HERO_MEDIA } from "@/lib/images";
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 20 },
@@ -14,15 +16,71 @@ const fadeUp = (delay: number) => ({
   transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] as const },
 });
 
+const VIDEO_FADE_MS = 520;
+
 export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const readySent = useRef(false);
+  const { markHeroReady } = useHeroReady();
+  const [videoVisible, setVideoVisible] = useState(false);
+  const [posterHidden, setPosterHidden] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const preferMobile = window.matchMedia(HERO_MEDIA.MOBILE_MQ).matches;
+    const src = preferMobile ? HERO_MEDIA.MOBILE_VIDEO : HERO_MEDIA.DESKTOP_VIDEO;
+
+    const signalReady = () => {
+      if (readySent.current) return;
+      readySent.current = true;
+      markHeroReady();
+    };
+
+    const revealVideo = () => {
+      setVideoVisible(true);
+      signalReady();
+      window.setTimeout(() => setPosterHidden(true), VIDEO_FADE_MS);
+    };
+
+    if (reduceMotion) {
+      signalReady();
+      return;
+    }
+
     video.muted = true;
-    video.play().catch(() => { });
-  }, []);
+    video.defaultMuted = true;
+    video.setAttribute("muted", "");
+    video.playsInline = true;
+    video.preload = "auto";
+    video.src = src;
+
+    const onPlaying = () => {
+      revealVideo();
+    };
+
+    const onCanPlay = () => {
+      video.play().catch(() => {
+        // Autoplay blocked: keep poster visible, still release loader
+        signalReady();
+      });
+    };
+
+    video.addEventListener("playing", onPlaying);
+    video.addEventListener("canplay", onCanPlay);
+
+    video.load();
+    video.play().catch(() => {
+      // Wait for canplay / playing; loader hard-timeout remains the safety net
+    });
+
+    return () => {
+      video.removeEventListener("playing", onPlaying);
+      video.removeEventListener("canplay", onCanPlay);
+    };
+  }, [markHeroReady]);
 
   return (
     <section
@@ -35,8 +93,7 @@ export default function HeroSection() {
         background: "#070604",
       }}
     >
-      {/* ── Background image ── */}
-      {/* Desktop and Mobile hero images with responsive switching */}
+      {/* ── Background: poster + single responsive video ── */}
       <div
         className="hero-background"
         style={{
@@ -46,27 +103,61 @@ export default function HeroSection() {
           overflow: "hidden",
         }}
       >
-        {/* Desktop Hero Video */}
         <div
-          className="hero-desktop"
+          className="hero-media-plane"
           style={{
             position: "absolute",
             top: "-3%",
             left: "-3%",
             width: "106%",
             height: "106%",
-            willChange: "auto",
             transform: "translateZ(0)",
             backfaceVisibility: "hidden",
           }}
         >
+          <picture
+            style={{
+              display: posterHidden ? "none" : "block",
+              position: "absolute",
+              inset: 0,
+            }}
+          >
+            <source
+              media={HERO_MEDIA.MOBILE_MQ}
+              srcSet={HERO_MEDIA.MOBILE_POSTER}
+              type="image/webp"
+            />
+            <img
+              src={HERO_MEDIA.DESKTOP_POSTER}
+              alt=""
+              decoding="async"
+              fetchPriority="high"
+              className="hero-poster"
+              style={{
+                display: "block",
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center center",
+                filter: "blur(1.2px)",
+                transform: "translateZ(0)",
+                backfaceVisibility: "hidden",
+              }}
+            />
+          </picture>
+
           <video
             ref={videoRef}
             autoPlay
             muted
             loop
             playsInline
+            preload="auto"
             className="hero-video-bg"
+            aria-hidden
             style={{
               display: "block",
               position: "absolute",
@@ -79,46 +170,10 @@ export default function HeroSection() {
               filter: "blur(1.2px)",
               transform: "translateZ(0)",
               backfaceVisibility: "hidden",
+              opacity: videoVisible ? 1 : 0,
+              transition: `opacity ${VIDEO_FADE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`,
             }}
-          >
-            <source src="/images/bg_horizontal.mp4" type="video/mp4" />
-          </video>
-        </div>
-        {/* Mobile Hero Video */}
-        <div
-          className="hero-mobile"
-          style={{
-            position: "absolute",
-            top: "-3%",
-            left: "-3%",
-            width: "106%",
-            height: "106%",
-            display: "none",
-            transform: "translateZ(0)",
-            backfaceVisibility: "hidden",
-          }}
-        >
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            style={{
-              display: "block",
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center center",
-              filter: "blur(1.2px)",
-              transform: "translateZ(0)",
-              backfaceVisibility: "hidden",
-            }}
-          >
-            <source src="/images/vertical.mp4" type="video/mp4" />
-          </video>
+          />
         </div>
       </div>
 
@@ -347,13 +402,6 @@ export default function HeroSection() {
           will-change: auto;
         }
 
-        /* Hero background image switching - Desktop default */
-        .hero-desktop {
-          display: block;
-        }
-        .hero-mobile {
-          display: none !important;
-        }
         .hero-overlay-desktop {
           display: block;
         }
@@ -361,14 +409,7 @@ export default function HeroSection() {
           display: none !important;
         }
 
-        /* Mobile: switch to portrait hero image and overlay */
         @media (max-width: 768px) {
-          .hero-desktop {
-            display: none !important;
-          }
-          .hero-mobile {
-            display: block !important;
-          }
           .hero-overlay-desktop {
             display: none !important;
           }
@@ -464,10 +505,6 @@ export default function HeroSection() {
             padding: 14px 20px !important;
             font-size: 14px !important;
           }
-          /* Ensure bubble is visible - adjust image position for smaller screens */
-          .hero-mobile-img {
-            object-position: center 80% !important;
-          }
         }
 
         /* iPhone 14/15 Pro Max (430px), iPhone 14/15 Pro (393px), iPhone SE (375px) */
@@ -497,9 +534,6 @@ export default function HeroSection() {
           .hero-desc {
             font-size: 13px !important;
             margin-bottom: 20px !important;
-          }
-          .hero-mobile-img {
-            object-position: center 85% !important;
           }
         }
 

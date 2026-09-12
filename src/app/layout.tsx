@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
+import ExperienceShell from "@/components/experience/ExperienceShell";
+import { HERO_MEDIA } from "@/lib/images";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -94,7 +96,25 @@ export default function RootLayout({
       lang="en"
       className={`${playfair.variable} ${inter.variable}`}
     >
-      <body className="min-h-screen antialiased">{children}</body>
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          href={HERO_MEDIA.DESKTOP_POSTER}
+          type="image/webp"
+          media="(min-width: 769px)"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href={HERO_MEDIA.MOBILE_POSTER}
+          type="image/webp"
+          media="(max-width: 768px)"
+        />
+      </head>
+      <body className="min-h-screen antialiased">
+        <ExperienceShell>{children}</ExperienceShell>
+      </body>
     </html>
   );
 }

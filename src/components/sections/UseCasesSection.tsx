@@ -97,6 +97,8 @@ export default function UseCasesSection() {
               <img
                 src={card.image}
                 alt={card.title}
+                loading="lazy"
+                decoding="async"
                 style={{
                   position: "absolute",
                   inset: 0,

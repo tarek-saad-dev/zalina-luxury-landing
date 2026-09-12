@@ -186,7 +186,7 @@ export default function GallerySection() {
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1400px) 33vw, 25vw"
                   className="gallery-image"
-                  loading={index < 6 ? "eager" : "lazy"}
+                  loading="lazy"
                   quality={85}
                 />
                 {/* Hover Overlay */}

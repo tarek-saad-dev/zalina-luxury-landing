@@ -14,6 +14,16 @@ export const HERO_IMAGES = {
   MOBILE: "/images/hero_mobile.png",
 } as const;
 
+/** Optimized hero background media (versioned for long-cache CDNs) */
+export const HERO_MEDIA = {
+  DESKTOP_VIDEO: "/images/hero-desktop-v2.mp4",
+  MOBILE_VIDEO: "/images/hero-mobile-v2.mp4",
+  DESKTOP_POSTER: "/images/hero-desktop-poster-v2.webp",
+  MOBILE_POSTER: "/images/hero-mobile-poster-v2.webp",
+  /** Matches HeroSection CSS breakpoint for portrait video */
+  MOBILE_MQ: "(max-width: 768px)",
+} as const;
+
 /** Type for hero image keys */
 export type HeroImageKey = keyof typeof HERO_IMAGES;
 

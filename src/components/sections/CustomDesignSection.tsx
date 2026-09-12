@@ -204,6 +204,8 @@ export default function CustomDesignSection() {
           <img
             src={image}
             alt="Custom Interior Design"
+            loading="lazy"
+            decoding="async"
             style={{
               position: "absolute",
               inset: 0,

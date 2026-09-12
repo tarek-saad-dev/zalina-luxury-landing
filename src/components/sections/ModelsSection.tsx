@@ -100,6 +100,8 @@ export default function ModelsSection() {
                 <img
                   src={model.image}
                   alt={model.name}
+                  loading="lazy"
+                  decoding="async"
                   style={{
                     width: "100%",
                     height: "100%",
