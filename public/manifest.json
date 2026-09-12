@@ -4,19 +4,14 @@
   "description": "Premium bubble hotel units manufactured in Egypt for resorts, glamping camps, eco lodges, and hospitality developers.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#1a1a1a",
+  "background_color": "#070604",
+  "theme_color": "#C8A45D",
   "icons": [
     {
       "src": "/icon.png",
-      "sizes": "192x192",
+      "sizes": "1254x1254",
       "type": "image/png",
       "purpose": "any maskable"
-    },
-    {
-      "src": "/apple-icon.png",
-      "sizes": "512x512",
-      "type": "image/png"
     }
   ]
 }
